@@ -11,4 +11,4 @@ def start():
         soup = BeautifulSoup(r.content, 'html5lib')
         value_estrangeira = soup.find('input', attrs={'id': 'nacional'}).get_attribute_list('value')[0]
         data = datetime.now()
-        mongo.save(key, {"value": value_estrangeira, "date": str(data)})
+        mongo.save(key, {"value": float(value_estrangeira.replace(',', '.')), "date": str(data)})

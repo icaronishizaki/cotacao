@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, request, Response
+from flask import Flask, request, Response, jsonify
 import mongo
 import bot_cotacao
 from helpers import json_to_obj, cotacoes
@@ -8,16 +8,20 @@ from helpers import json_to_obj, cotacoes
 app = Flask(__name__)
 
 
-@app.route('/moedas', methods=['GET'])
-def get_moedas():
-    msg = mongo.collection
-    return msg
+@app.route('/moedas/<moeda>', methods=['GET'])
+def get_moedas(moeda: str):
+    for key, _ in cotacoes().items():
+        if moeda.capitalize() == key:
+            return jsonify(mongo.get_all(key))
+    return Response('not found', status=404)
 
 
-@app.route('/dia', methods=['GET'])
-def get_dia():
-    msg = "Get Dia"
-    return msg
+@app.route('/dia/<moeda>', methods=['GET'])
+def get_dia(moeda: str):
+    for key, _ in cotacoes().items():
+        if moeda.capitalize() == key:
+            return jsonify(mongo.get(key))
+    return Response('not found', status=404)
 
 
 @app.route('/dia', methods=['POST'])
