@@ -3,10 +3,11 @@ from flask import Flask, request, Response, jsonify
 import mongo
 import bot_cotacao
 from helpers import json_to_obj, cotacoes
+from flask_cors import CORS
 
 # API
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/moedas/<moeda>', methods=['GET'])
 def get_moedas(moeda: str):
