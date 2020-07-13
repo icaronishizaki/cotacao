@@ -30,7 +30,7 @@ def post_dia():
         acao = request.headers['acao']
         if acao == 'coleta-diaria':
             bot_cotacao.start()
-            return Response(status=202)
+            return Response("teste",status=200)
     if request.data == b'':
         return Response('bad request', status=400)
     else:
